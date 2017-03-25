@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Radio Adventures!@#$</title>
+
+		<meta name="description" content="Radio-themed Fauzy hour presentation">
+		<meta name="author" content="Daniel Roberson">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/white.css" id="theme">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+			  <section data-background="img/radio1.png"></section>
+			  
+			  <section data-background="img/radio2.png"></section>
+			  
+			  <section data-background="img/radio3.png"></section>
+			  
+			  <section data-background="img/radio4.png"></section>
+			  
+			  <section>
+			    <h2>What Uses Radio?</h2>
+			    <ul>
+			      <li>WiFi, Bluetooth, Wireless Input Devices
+			      <li>NFC, RFID, EMV
+			      <li>Cordless phones (<a href="https://www.youtube.com/watch?v=FqtJ-TvtLTQ">including cellular</a>), <a href="https://www.youtube.com/watch?v=dEVS1CEzDho">pagers</a>
+			      <li>Broadcast radio and television
+			      <li>Baby monitors, children's toys, drones
+			      <li>2-way radios (resorts, police/fire, the feds!, military, transportation, construction, aviation, ...)
+			      <li>Garage and gate openers
+			      <li>Satellites (GPS, Iridium, Amateur, ISS, ...)
+			      <li>RADAR
+			      <li><a href="https://www.youtube.com/watch?v=TDYoo7TGNcw">Cars!</a>
+			      <li>Lots and lots more...
+			    </ul>
+			  </section>
+			  
+			  <section>
+			    <h2>Why Get Licensed?</h2>
+			    <ul>
+			      <li/>Ultimate hacker hobby: hardware, software, skills carry directly over into IT careers.
+			      <li/>Nearly limitless research possibilties.
+			      <li/>Gain privileges to <a href="img/bandplan.jpg">amateur bands</a>
+			      <li/>Social interaction and public service.
+			      <li/>Access to a lot of interesting networks and systems: Echolink, DMR, Winlink, IRLP, repeater networks, ...
+			      <li/>Obtain legal hands-on experience.
+			      <li/>Great excuse if you get pulled over with tons of electronics.
+			    </ul>
+			  </section>
+			  
+			  <section>
+			    <h2>How to Get Licensed</h2>
+			    <ul>
+			      <li/><a href="http://www.arrl.org/find-an-amateur-radio-license-exam-session">http://www.arrl.org/find-an-amateur-radio-license-exam-session</a>
+			      <li/>Study: <a href="http://www.arrl.org/instruction-exam-practice-and-review">ARRL Android/iOS app</a> (works offline)
+			      <li/>ARRL books. Check Amazon for used books.
+			      <li/>Got mine for ~$5 each.
+			      <li/>What to expect on the exam? (Seniors and "preppers")
+			      <li/>How long until you get a call sign?
+			      <li/><a href="http://wireless2.fcc.gov/UlsApp/UlsSearch/searchLicense.jsp">http://wireless2.fcc.gov/UlsApp/UlsSearch/searchLicense.jsp</a>
+			    </ul>
+			  </section>
+
+			  <section>
+			    <h2>Please Get Licensed!</h2>
+			    <ul>
+			      <li/>Would like to talk to other people about stuff besides groceries, the weather, doctor's appointments, and their medical problems.
+			      <li/>Plenty of clubs are in desparate need of IT savvy people and younger membership.
+			      <li/>Help keep this hobby/art alive! Use it or lose it.
+			      <li/>Lots of terrible software to audit or patch.
+			      <li/>I've learned a LOT.
+			    </ul>
+			  </section>
+			  
+			  <section>
+			    <h2>Scanning</h2>
+			    <ul>
+			      <li/>Does not require a license.
+			      <li/>Some traffic is illegal to intercept.
+			      <li/>A lot of interesting traffic!
+			      <li/>Scanners can be obtained for under $100
+			      <li/>Can use an SDR and extra software to scan (~$30)
+			      <li/>I prefer Uniden scanners and <a href="http://www.proscan.org">ProScan software</a> for stationary setups. SDR and GQRX for temporary.
+			      <li/>Python! <a href="https://github.com/suidroot/pybct15x">https://github.com/suidroot/pybct15x</a>
+			      <li/><a href="http://www.radioreference.com/apps/db/">RadioReference.com</a> provides a database of known frequencies.
+			    </ul>
+			  </section>
+			  
+			  <section>
+			    <h2>Scanning Remotely</h2>
+			    <ul>
+			      <li/>Determine frequencies to scan.
+			      <li/>Raspberry Pi, GQRX, cheap SDR, network connectivity (under $100 if you have access to power + network on premesis)
+			      <li/>Will need portable power + means for remote control (WiFi, 3G, extra $50+)
+			      <li/><a href="http://gqrx.dk/doc/remote-control">http://gqrx.dk/doc/remote-control</a>
+			      <li/><a href="http://gqrx.dk/doc/streaming-audio-over-udp">http://gqrx.dk/doc/streaming-audio-over-udp</a>
+			      <li/>Can transmit with HackRF + extra software tooling (most SDRs are receive only!)
+			    </ul>
+			  </section>
+
+			  <section data-background="img/remote-scan.jpg">
+			    <h1><font color="yellow">EXAMPLE HARDWARE</font></h1>
+			  </section>
+
+			  <section>
+			    <h2>Scanning Remotely (continued...)</h2>
+			    <ul>
+			      <li/>With a bit of effort/creativity and depending on the target, this can be a very interesting attack vector.
+			      <li/>Wireless headsets and phones, 2-way radios, alarm systems, <a href="https://github.com/jboone/tpms">tire pressure monitors!</a> ...
+			      <li/>Do a walkthrough first. Make note of makes and models of radio equipment in use.
+			      <li/>Replay attacks <a href="https://samy.pl/dingdong/">https://samy.pl/dingdong/</a>
+			      <li/>Story time!
+			    </ul>
+			  </section>
+
+			  <section>
+			    <h2>Data Exfiltration w/ Radio</h2>
+			    <ul>
+			      <li/>Cheap radios (Baofeng UV-5R) + open source software make an excellent out of band communications channel!
+			      <li/>Minimodem <a href="https://www.youtube.com/watch?v=pwuyMJfyNmY">Demo video</a>
+			      <li/>Requires sound cards. Cheap USB sound cards work great for this. <a href="http://www.outletpc.com/c5801.html">http://www.outletpc.com/c5801.html</a>
+			      <li/>No network traffic! Does not trip IDS.
+			      <li/>Slow. Wouldn't be suitable for dumping a database or file server. Hashes or small files would be great.
+			      <li/>Can be used for remote control (SSH). Illegal because of encryption.
+			    </ul>
+			  </section>
+
+			  <section data-background="img/osint.png">
+			    <h2>OSINT and Recon</h2>
+			    <ul>
+			      <li/>FCC Databases
+			      <li/>RepeaterBook
+			      <li/>MAC Addresses and time stamps
+			      <li/>ADS/B. FlightRadar gives email alerts for activity on tail numbers! Requires premium access.
+			      <li/>Many scanners log audio and metadata to SD cards for future analysis.
+			      <li/>A lot of hams post pictures of their racks, setups, and OTHER PEOPLE'S STUFF on social media.
+			    </ul>
+			  </section>
+
+			  <section>
+			    <h2>SDR</h2>
+			    <ul>
+			      <li/>Can get started for very cheap.
+			      <li/>Get one with SMA connector versus MCX if possible.
+			      <li/>Most DO NOT TRANSMIT.
+			      <li/>Abundance of information online.
+			      <li/>GQRX (Mac, Linux)
+			      <li/>SDR# (Windows)
+			      <li/>GNURadio Companion <a href="https://wiki.gnuradio.org/index.php/Main_Page">https://wiki.gnuradio.org/</a>
+			      <li/>Tons of smaller tools depending on what type of data you are attempting to receive!
+			    </ul>
+			  </section>
+
+			  <section data-background="img/sma-mcx.jpg">
+			    <h2><font color="yellow">SMA vs. MCX</font></h2>
+			  </section>
+
+			  <section>
+			    <h2>More SDR Information!</h2>
+			    <ul>
+			      <li/><a href="https://www.youtube.com/watch?v=5N1C3WB8c0o">DEF CON 21 - Melissa Elliott - Noise Floor Exploring Unintentional Radio Emissions</a>
+			      <li/><a href="https://www.youtube.com/watch?v=TZmHgIPBLDo&list=PLVQhg1UYyzxUcv-bZnxOOA6pkoAB021d9">Software Defined Radio with HackRF</a>
+			      <li/>NooElec Ham It Up Upconverter. Can listen to Shortwave. Pirate radio!!
+			      <li/><a href="http://www.rtl-sdr.com/">http://www.rtl-sdr.com/</a>
+			      <li/>Seriously, just Google that shit.
+			    </ul>
+			  </section>
+
+			  <section data-background="img/pirate.png">
+			    <h2>Pirate Radio</h2>
+			    <ul>
+			      <li/>It's still a thing!
+			      <li/>Shortwave and FM most common.
+			      <li/>Late at night for FM.
+			      <li/>Shortwave is often foreign.
+			      <li/>Can be done well on a modest budget.
+			      <li/>Either political or artistic.
+			      <li/><a href="https://en.wikipedia.org/wiki/Radio_Caroline">Radio Caroline (UK)</a>
+			      <li/><a href="http://www.imdb.com/title/tt0506137/synopsis">Pete and Pete</a>
+			      <li/><a href="https://www.youtube.com/watch?v=pgg-FxTJT50">Hunting Pirate Radio</a>
+			    </ul>
+			  </section>
+			  
+			  </section>
+			  <section data-background="img/fox.png">
+			    <h2>Fox Hunting</h2>
+			    <ul>
+			      <li/>Methods for finding locations of rogue radio sites and stolen equipment.
+			      <li/>Is a "sport" in amateur radio.
+			      <li/>Directional antenna + spectrum analyzer.
+			      <li/>Laptop + SDR + antenna.
+			      <li/><a href="https://www.youtube.com/watch?v=-ixv5MsLoIw">RF Explorer + VAS Crosshair (~$420)</a>
+			    </ul>
+			  </section>
+
+			  <section data-background="img/baofeng.png">
+			    <h2>Baofeng Radios</h2>
+			    <ul>
+			      <li/>Cheap, handheld Chinese radios.
+			      <li/>~$25-80 depending on model.
+			      <li/>Great entry level radios!
+			      <li/>TONS of material online.
+			      <li/>A lot of older hams hate them (<a href="http://n4njj.com/baofeng-policy/">elitism</a>).
+			      <li/>Can be programmed manually, but I do not recommend it.
+			      <li/>Program with <a href="http://chirp.danplanet.com/projects/chirp/wiki/Home">CHIRP</a>
+			      <li/>Get the more expensive programming cables unless you're using Linux. Nothing but problems on Mac and Windows otherwise!
+			    </ul>
+			  </section>
+			  
+			  <section>
+			    <h2>Repeaters</h2>
+			    <ul>
+			      <li/>"Extend" range/power of radios.
+			      <li/>One of the first things a new ham typically does.
+			      <li/>PL tones.
+			      <li/>Offsets.
+			      <li/>"Linked" repeaters.
+			      <li/><a href="https://www.youtube.com/watch?v=_KrH86Dzhnc">Build your own with two Baofeng radios.</a>
+			    </ul>
+			  </section>
+
+			  <section>
+			    <h2>DMR</h2>
+			    <ul>
+			      <li/>Digital Mobile Radio
+			      <li/>Requires compatible radio.
+			      <li/>TYT MD-380 are best bang for the buck currently.
+			      <li/>Supports text messaging and private calling.
+			      <li/>Travis Goodspeed hacked firmware
+			      <li/>A bit of a learning curve to program the radio.
+			      <li/>CHIRP plugin offers limited support.
+			      <li/>Ended up downloading a Windows VM and using the official software in the end.
+			    </ul>
+			  </section>
+
+			  <section>
+			    <h2>War Driving</h2>
+			    <ul>
+			      <li/>Travelling around cities with GPS and WiFi.
+			      <li/>Kismet, giskismet, Google Earth.
+			      <li/>Tried with WiFi Pineapple. Poor results.
+			      <li/>Currently use ASUS Chromebook Flip, Kali Linux via Crouton, Alfa WiFi card, and Holux GPS. Works exceptionally well.
+			      <li/>Other types of radio can be war driven: <a href="http://travisgoodspeed.blogspot.com/2012/02/wardriving-for-zigbee.html">ZigBee</a>
+			    </ul>
+			  </section>
+
+			  <section>
+			    <h2>Conclusion</h2>
+			    <ul>
+			      <li/>This barely scratched the surface.
+			      <li/>A lot of interesting work still.
+			      <li/>Audit/fuzz software. Radio software is often full of bugs. Not much scrutiny!
+			      <li/>Some hardware can not or will not be patched.
+			      <li/>Many protocols will never be fixed.
+			      <li/>Lots of new gadgets use radio in one way or another. Be evil.
+			    </ul>
+			  </section>
+
+			  <section>
+			    <h1>The End!</h1>
+			    <br/>
+			    For slides or other correspondence:<br/>
+			    Email: daniel@planethacker.net<br/>
+			    Twitter: @dmfroberson<br/>
+			    XMPP: dmfr@cypher.pw<br/><br/>
+			    3/24/2017
+			  </section>
+			  
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
