@@ -1,0 +1,437 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>Crypto Party @SynShop -- September 24th, 2017</title>
+    
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css">
+    
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+	<!-- Slide 1 -->
+	<section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      # <font color="yellow">Crypto Party!@#$</font>
+	      ## September 24th, 2017
+	      <br/><br/>
+	      Daniel Roberson -- [@dmfroberson](https://twitter.com/dmfroberson)
+	      https://droberson.github.io/CryptoPartySummer2017/
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      Put disclaimer here
+	    </textarea>
+	  </section>
+	</section>
+
+	<!-- Slide 2 -->
+	<section data-markdown>
+	  <textarea data-template>
+	    ## <font color="yellow">What will be covered</font>
+	    * High level overview of cryptographic hash functions
+	    * Anatomy of passwords
+	    * Practical attacks against hashes using free and open-sourced tooling
+	    * Practical defenses against these types of attacks
+
+	    <br/>
+	    This talk will be an "Explain to me like I'm five with a small amount of Algebra and Linux knowledge" talk. 
+	  </textarea>
+	</section>
+
+	<!-- Slide 3 -->
+	<section data-markdown>
+	  <textarea data-template>
+	    ## <font color="yellow">What is a hash?</font>
+	    Cryptographic hash functions take an input (password, document, file, message, ...) and return a fixed-length string (hash) representing the input:
+	    > MD5("password") = 5f4dcc3b5aa765d61d8327deb882cf99
+	    
+	    <br/>
+	    [Simplified Wikipedia article](https://simple.wikipedia.org/wiki/Cryptographic_hash_function)
+	    <br/>
+	    [Full-length Wikipedia article](https://en.wikipedia.org/wiki/Cryptographic_hash_function)
+	  </textarea>
+	</section>
+
+	<!-- Slide 4 -->
+	<section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Real-world applications</font>
+	      * Verifying data integrity (md5sum ISO/packages)
+	      * Identifying files (Malware, Forensics, ...)
+	      * Password storage
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ### <font color="yellow">Verifying MD5 checksums</font>
+	      Windows:
+	      > certutil -hashfile blahblah.iso
+
+	      <br/>
+	      Linux/OSX:
+	      > md5sum blahblah.iso
+
+	      <br/>
+	      Compare output with hashes provided by the source.
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ### <font color="yellow">.md5 files provided by a software vendor</font>
+	      ![md5 files for verifying ISO](img/hash-slackware.png)
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ### <font color="yellow">Verifying the integrity of a file</font>
+	      ![Verifying hashes on Linux](img/md5sum-ttyrec.gif)
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ### <font color="yellow">...continued</font>
+	      * Process for verifying other files is identical
+	      * [Malware indexing sites](https://www.virustotal.com/#/home/search) use hashes to reference known pieces of malware
+	      * Antivirus software often uses this method to identify malicious software
+	      * Forensics investigators use these methods heavily: [de-nisting filesystems](https://www.nist.gov/software-quality-group/national-software-reference-library-nsrl), referencing files, ...
+	    </textarea>
+	  </section>
+	</section>
+
+	<!-- Slide 5 -->
+	<section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Piecewise hashing</font>
+	      * [ssdeep](https://ssdeep-project.github.io/ssdeep/index.html) creates "fuzzy hashes"
+	      * Creates a hash that also represents similarity
+	      * Hashes will be different if you alter 1 character, but ssdeep will show that the files are 99.9% similar
+	      * Can also be used to find encapsulated files
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ### <font color="yellow">Practical defensive use of hashes</font>
+	      * Wrote [ssdeep-snapshot](https://github.com/droberson/ssdeep-snapshot) and [inotify-watch](https://github.com/droberson/inotify-watch) for use in an attack/defend CTF event
+	      * ssdeep-snapshot computes fuzzy hashes of files in a directory, stores them in a database
+	      * inotify-watch monitors a filesystem for writes, logs the new hash of a file
+	      * Could be polished up for production use!
+	      * Monitor /bin, /etc, ... Be alerted as soon as important files have changed. Can then automatically query NIST database, Virustotal, etc and generate meaningful alerts.
+	      * Not sure if something like this already exists?
+	    </textarea>
+	  </section>
+	</section>
+
+	<!-- Slide 6 -->
+	<section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Password storage</font>
+	      Rather than storing the actual password, it is more secure to store hashes:
+	      ```
+	      daniel:$apr1$0h2fLQQa$2DzrhlUXiY.7cMPdmosp4/
+	      nicole:$apr1$vhrFDXvU$6B9GcfyrkbTjqhNRZxKfL1
+	      joe:$apr1$p78ihGHd$9/NGjRNQi9AcXvcxzpWHw0
+	      lee:$apr1$AKHNmy8F$53dkjdBYFmMM0Emc0UasT.
+	      alice:$apr1$NFNmYKUJ$3NJ8QTMWjXLMu0nIR5SO81
+	      bob:$apr1$ZUVRFChs$oFhOzwGIwh98gIiuiSzJM0
+	      emilie:$apr1$KLW29a4M$mYHTBXuEwDsr0o01u0EGu/
+	      mike:$apr1$j8glaIQx$.P2/6AWSs6c6lJqD7edmo.
+	      hector:$apr1$KUsZjFho$jXdHpyQWMxBGij95QZF/Z1
+	      nancy:$apr1$siLddddQ$0l2ccvQE.kLWtPmqwS2gV.
+	      frank:$apr1$PTZEHYXM$s3AhAn96jZcnSZznZX1Bg0
+	      stacy:$apr1$SvAgKgpq$g1YnOl1bkOVVgrxdjnlat1
+	      ricky:$apr1$WXitiiLa$3Mbbb.vbjlNM8qiZWIyzD/
+	      steve:$apr1$cexgZf5J$wsaGoxy.5tijXtDv4PP4l0
+	      chuy:$apr1$j22HbfdS$8sPlqNvaxaMiTR/bwM9Ds/
+	      christy:$apr1$lS58xARK$ZBcK7ezLxxySwZxJaqCpD/
+	      ```
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">htpasswd</font>
+	      The file referenced in the previous slide is a htpasswd file to password-protect a directory on a web server. Its format is as follows:
+
+	      ```
+	      username:hash
+	      ```
+
+	      In this case, the user daniel has a password of "terriblepassword":
+	      ```
+	      daniel:$apr1$0h2fLQQa$2DzrhlUXiY.7cMPdmosp4/
+	      ```
+	      
+	      Notice that the true password isn't revealed. Its a hash.
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Why?</font>
+	      * If the password file is somehow exposed, the attacker does not immediately know everyone's passwords
+	      * Hashes must be cracked, changed, or bypassed
+	      * Changing a password will be apparent to the user
+	      * A bypass attack of some kind may or may not be present. Usually not.
+	      * Knowing a user's password grants you access as that user
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Basic authentication procedure</font>
+	      * User sends username:password pair to server
+	      * Server verifies that username exists
+	      * Server verifies that passwords match
+	      * If everything matches, grant the user access
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Basic authentication procedure using hashes</font>
+	      * User sends username:password pair to server
+	      * Server verifies username is valid and retrieves their stored hash
+	      * Server hashes the supplied password and compares the result to the stored hash
+	      * If they match, the password is correct. Grant the user access
+	    </textarea>
+	  </section>
+	</section>
+
+	<!-- Slide 7 -->
+	<section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Hash cracking</font>
+	      Various attacks "solve" a hash:
+	      * Dictionary attacks
+	      * Brute force
+	      * Sniffing
+	      * Rainbow tables
+	      * Key logging
+	      * Leveraging flaws in the crypto implementation used
+	      * More...
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Brute force</font>
+	      Simply try every possible combination in the keyspace.
+	      * Brute force against a PIN: 0000, 0001, 0002, ..., 9999
+	      * Brute force against a pin tumbler lock: cut every possible combination of keys and try them. One (or more) SHOULD work
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Brute force pros</font>
+	      * Very easy concept to understand
+	      * Very easy to script in most cases
+	      * If time permits, you WILL get the password eventually
+	      * If the keyspace is small, this can be a very fast and reliable attack.
+	      * PINs only have 10,000 possibilities (0000-9999) 10,000 iterations on a modern computer is very fast.
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Brute force cons</font>
+	      * If done over a network, this is a very loud attack.
+	      * If the keyspace is large or computing the hash takes a long time, it could take more than a lifetime to solve a hash
+	      * Very well known attack, so plenty of defenses exist: account lockout after X failed attempts, Fail2Ban, timeouts between attempts, ...
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Dictionary attacks</font>
+	      * Use lists of likely passwords (wordlists) instead of running through the entire keyspace.
+	      * In theory, "password" is a lot more likely to be a password than "sa%@%khf9".
+	      * Being able to skip unlikely or impossible combinations can be a significant speed advantage over brute force.
+	      * This technique leverages the human behavior of using simple passwords that they can remember. If you cannot remember your password, it is not useful or practical.
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Wordlists</font>
+	      Using the correct wordlist is paramount to success. Crafting wordlists is an artform.
+	      * If the user is Polish, using Polish language wordlists will likely be more successful than Russian wordlists
+	      * Industry-specific keywords can be very successful
+	      * Personal details about a user can be helpful (sports teams, birthdays, names of children, ...)
+	      * Default passwords are a huge problem
+	      * Password reuse is a huge problem
+	      * Many organizations employ password patterns
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Obtaining pre-made wordlists</font>
+	      * [Skull Security](https://wiki.skullsecurity.org/Passwords) has a collection of wordlists obtained from real-world breaches.
+	      * These are actual passwords that are being used!
+	      * Simple Google search for "wordlists"
+	      * Have personally had a lot of success with defaults, probable/common password lists, and rockyou.txt.
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Crafting your own</font>
+	      If pre-made wordlists do not yield the desired results, you may need to make your own. There are several sources for unique words:
+	      * Social media profiles
+	      * Company websites
+	      * If you discover a pattern
+	      * Data found on their filesystems (if you have access)
+	      * Markov chains
+	      * Tools already exist to build wordlists from each of these sources
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Using websites</font>
+	      * [CeWL](https://digi.ninja/projects/cewl.php) spiders a website and creates lists.
+	      * Similar can be done with a bash one-liner:
+	      ```
+	      curl http://www.foo.com 2>/dev/null | \
+	      html2text | \
+	      tr " " "\n" | \
+	      sort | \
+	      uniq > wordlist
+	      ```
+
+	      Use these tools against related sites, social media profiles, etc. If you see that they are a Raiders fan, running against their Wikipedia page might be a good idea.
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Curl example</font>
+	      <img src="img/curl-wordlist.gif">
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Patterns</font>
+	      Schemes such as using the season and the year are common: Summer2017. If you discover a pattern, [crunch](https://github.com/crunchsec/crunch) will generate these types of patterns for you.
+	      <br/>
+	      <br/>
+	      Alternatively, you could just do it with bash:
+	      ```
+	       % for i in {2013..2018}; do echo Summer$i; done   
+	      Summer2013
+	      Summer2014
+	      Summer2015
+	      Summer2016
+	      Summer2017
+	      Summer2018
+	      ```
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Filesystems</font>
+	      If you have filesystem access, take advantage of the fact that people do some silly stuff:
+	      * passwords.txt on their desktop
+	      * Every UNIX sysadmin has either misfired a password into their terminal or lied about it. (.bash_history)
+	      * Password exchange over chat (logs)
+	      * Typing passwords into the wrong field (logs)
+	      * Software configuration files often require plaintext passwords
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">...continued</font>
+	      A few strategies if you have filesystem access:
+	      * Manual review of logs, history files, configurations, and home directories
+	      * Automated tools such as [Dave Navarro's Goatee](https://github.com/droberson/davenavarrosgoatee)
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Markov chains</font>
+	      Written languages are predictable. The combination of "th" appears very often in English, but "xg" would occur less frequently (possibly never). Using [Markov Chains](https://en.wikipedia.org/wiki/Markov_chain), these statistics can be leveraged to produce "random" strings that are likely to make sense in English.      https://github.com/RUB-SysSec/OMEN
+	    </textarea>
+	  </section>	  
+	</section>
+	<!--
+	    password cracking basics (dictionary attacks)
+	    -- Identifying hashes https://github.com/psypanda/hashID
+	    -- John the ripper
+	       -- installing from git
+	       -- basic usage
+            -- Rules
+	    
+            Defense against dictionary attacks
+	    -- Picking the right hash algorithm
+	    -- John benchmarks
+	    -- Salting
+            -- Secret salt (pepper)
+	    -- Use good passwords
+	       -- Time is your friend
+	       -- Keyspace. What is it?
+	       -- xkcd comic https://xkcd.com/936/
+	       -- math proof of longer > complex
+	       -- human nature of being forced into a complexity policy
+               -- diceware https://www.eff.org/dice
+
+            Online cracking services
+	    -- hashkiller etc
+	    -- Warning about online services now having your hashes
+
+	    Defense against online attacks
+	    -- Salting
+            -- Policy if your password has been cracked, its time to change it.
+	       -- Automate this with JtR
+	       -- Actively try to crack your user's hashes (if feasible)
+
+            Rainbow tables
+	    -- What are rainbow tables
+              -- don't have to generate tables for hash space, only need keyspace
+	    -- Obtaining rainbow tables
+	    -- Generating your own
+            -- Limitations of rainbow tables
+
+            Defense against Rainbow tables
+	    -- Weakness of rainbow tables is storage + time to generate tables.
+            -- Salt and peppa.
+
+	    Markov chains
+	    -- What are they? https://github.com/RUB-SysSec/OMEN
+	    -- Using JtR for markov chains
+
+	    Attacking PRNGs
+	    -- Simple tool to generate random passwords using rand()
+            -- PoC to build wordlists based on time
+	    -- Use john w/ wordlist
+	  -->
+      </div>
+    </div>
+    
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+    
+    <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+      dependencies: [
+      { src: 'plugin/markdown/marked.js' },
+      { src: 'plugin/markdown/markdown.js' },
+      { src: 'plugin/notes/notes.js', async: true },
+      { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+      ]
+      });
+    </script>
+  </body>
+</html>
