@@ -230,6 +230,26 @@
 	  </section>
 	  <section data-markdown>
 	    <textarea data-template>
+	      ## <font color="yellow">Software</font>
+	      * [John the Ripper](https://github.com/magnumripper/JohnTheRipper)
+	      * [Hashcat](https://hashcat.net/hashcat/)
+	      * [PACK](https://thesprawl.org/projects/pack/)
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Hardware</font>
+	      * CPU = less cores
+	      * GPU = more cores
+	      * You dont NEED a cracking rig.
+	      * JtR/Hashcat perform better/worse on CPU/GPU depending on the hash type
+	      * Perform benchmarks on your system to see what works best for your particular application
+	      * [John the Ripper benchmarking](http://openwall.info/wiki/john/benchmarks): use --test flag
+	      * [Hashcat benchmarking](https://hashcat.net/wiki/doku.php?id=frequently_asked_questions#how_can_i_perform_a_benchmark): use -b flag
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
 	      ## <font color="yellow">Obtaining hashes</font>
 	      Before you can crack hashes, you will obviously need to obtain them:
 	      * Password files
@@ -525,11 +545,6 @@ int main(int argc, char *argv[]) {
             Defense against Rainbow tables
 	    -- Weakness of rainbow tables is storage + time to generate tables.
             -- Salt and peppa.
-
-	    Attacking PRNGs
-	    -- Simple tool to generate random passwords using rand()
-            -- PoC to build wordlists based on time
-	    -- Use john w/ wordlist
 	  -->
       </div>
     </div>
