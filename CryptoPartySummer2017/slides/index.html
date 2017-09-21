@@ -52,7 +52,7 @@
 	    * Practical defenses against these types of attacks
 
 	    <br/>
-	    This talk will be an "Explain to me like I'm five with a small amount of Algebra and Linux knowledge" talk. 
+	    This talk will assume general computer and Algebra knowledge.
 	  </textarea>
 	</section>
 
@@ -134,7 +134,6 @@
 	      * Wrote [ssdeep-snapshot](https://github.com/droberson/ssdeep-snapshot) and [inotify-watch](https://github.com/droberson/inotify-watch) for use in an attack/defend CTF event
 	      * ssdeep-snapshot computes fuzzy hashes of files in a directory, stores them in a database
 	      * inotify-watch monitors a filesystem for writes, logs the new hash of a file
-	      * Could be polished up for production use!
 	      * Monitor /bin, /etc, ... Be alerted as soon as important files have changed. Can then automatically query NIST database, Virustotal, etc and generate meaningful alerts.
 	      * Not sure if something like this already exists?
 	    </textarea>
@@ -191,7 +190,7 @@
 	      * Hashes must be cracked, changed, or bypassed
 	      * Changing a password will be apparent to the user
 	      * A bypass attack of some kind may or may not be present. Usually not.
-	      * Knowing a user's password grants you access as that user
+	      * Knowing a user's password grants access as that user
 	    </textarea>
 	  </section>
 	  <section data-markdown>
@@ -231,6 +230,29 @@
 	  </section>
 	  <section data-markdown>
 	    <textarea data-template>
+	      ## <font color="yellow">Obtaining hashes</font>
+	      Before you can crack hashes, you will obviously need to obtain them:
+	      * Password files
+	      * Databases
+	      * htaccess
+	      * hashdump
+	      * mimikatz
+	      * Sniffing
+	      * ...
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Identifying hashes</font>
+	      Before you can crack a hash, you need to know what type of hash it is. Many hashes are visually identical, so you may need extra clues.
+	      * [HashID](https://github.com/psypanda/hashID) works very well.
+	      * Read documentation
+	      * Read source code
+	      * Intuition
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
 	      ## <font color="yellow">Brute force</font>
 	      Simply try every possible combination in the keyspace.
 	      * Brute force against a PIN: 0000, 0001, 0002, ..., 9999
@@ -250,6 +272,7 @@
 	  <section data-markdown>
 	    <textarea data-template>
 	      ## <font color="yellow">Brute force cons</font>
+	      * Consumes a lot of resources
 	      * If done over a network, this is a very loud attack.
 	      * If the keyspace is large or computing the hash takes a long time, it could take more than a lifetime to solve a hash
 	      * Very well known attack, so plenty of defenses exist: account lockout after X failed attempts, Fail2Ban, timeouts between attempts, ...
@@ -280,7 +303,7 @@
 	    <textarea data-template>
 	      ## <font color="yellow">Obtaining pre-made wordlists</font>
 	      * [Skull Security](https://wiki.skullsecurity.org/Passwords) has a collection of wordlists obtained from real-world breaches.
-	      * These are actual passwords that are being used!
+	      * [weakpass.com/wordlist](http://weakpass.com/wordlist)
 	      * Simple Google search for "wordlists"
 	      * Have personally had a lot of success with defaults, probable/common password lists, and rockyou.txt.
 	    </textarea>
@@ -310,7 +333,7 @@
 	      uniq > wordlist
 	      ```
 
-	      Use these tools against related sites, social media profiles, etc. If you see that they are a Raiders fan, running against their Wikipedia page might be a good idea.
+	      Use these tools against related sites, social media profiles, etc. If you see that they are a Raiders fan, running against the Raiders' Wikipedia page might be a good idea.
 	    </textarea>
 	  </section>
 	  <section data-markdown>
@@ -322,7 +345,7 @@
 	  <section data-markdown>
 	    <textarea data-template>
 	      ## <font color="yellow">Patterns</font>
-	      Schemes such as using the season and the year are common: Summer2017. If you discover a pattern, [crunch](https://github.com/crunchsec/crunch) will generate these types of patterns for you.
+	      Schemes such as using the season and the year are common: Summer2017. If you discover a pattern, [crunch](https://github.com/crunchsec/crunch) will generate appropriate wordlists for you.
 	      <br/>
 	      <br/>
 	      Alternatively, you could just do it with bash:
@@ -354,18 +377,126 @@
 	      A few strategies if you have filesystem access:
 	      * Manual review of logs, history files, configurations, and home directories
 	      * Automated tools such as [Dave Navarro's Goatee](https://github.com/droberson/davenavarrosgoatee)
+	      * lol grep -Hri password /etc /var/www
+	      * Claude Shannon's entropy algorithm
 	    </textarea>
 	  </section>
 	  <section data-markdown>
 	    <textarea data-template>
 	      ## <font color="yellow">Markov chains</font>
-	      Written languages are predictable. The combination of "th" appears very often in English, but "xg" would occur less frequently (possibly never). Using [Markov Chains](https://en.wikipedia.org/wiki/Markov_chain), these statistics can be leveraged to produce "random" strings that are likely to make sense in English.      https://github.com/RUB-SysSec/OMEN
+	      Written languages are predictable.
+	      * The combination of "th" appears very often in English: <b>th</b>is, <b>th</b>at, <b>th</b>umb, <b>th</b>e, bloodba<b>th</b>
+	      * "xg" would occur less frequently (possibly never)
+	      * Using [Markov Chains](https://en.wikipedia.org/wiki/Markov_chain), these statistics can be leveraged to produce "random" strings that are likely to make sense in English.
+	      * [JtR](http://openwall.info/wiki/john/markov), [OMEN](https://github.com/RUB-SysSec/OMEN), others have tooling to accomplish this.
 	    </textarea>
-	  </section>	  
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Mangling rules</font>
+	      JtR, Hashcat, etc have mangling rule support.
+	      * Again, people are predictable
+	      * Convert words to l33tspeak
+	      * Append numbers to the end of words (ninja1 ... ninja9999)
+	      * Add exclaimation point to the end of words
+	      * ...
+	      * [Korelogic JtR rules](http://contest-2010.korelogic.com/rules.html)
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Keyboard walks</font>
+	      * qwerty
+	      * qazwsxedc
+	      * =-0987654321
+	      * [keywalker](https://github.com/ndrix/keywalker)
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Rainbow tables</font>
+	      Pre-compute all possible entries in a keyspace once, store results in a database for future lookups.
+	      * Only have to calculate hashes once
+	      * Limited by storage space
+	      * http://project-rainbowcrack.com/table.htm
+	      * DEFCON data duplication village
+	      * Compute your own
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Online hash cracking</font>
+	      Several online services exist that will crack hashes/perform rainbow table lookups for you.
+	      * Do not use these if you care about the hashes
+	      * [CrackStation](https://crackstation.net/)
+	      * [HashKiller](https://hashkiller.co.uk/)
+	      * [Online Hash Crack](https://www.onlinehashcrack.com/)
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Sniffing</font>
+	      Although sniffing is not technically hash cracking, it may be worthwhile. If the passwords are being passed over the network in plaintext, you don't even have to bother with cracking.
+	      * May reveal corporate patterns
+	      * Hashes may be passed over the network in plaintext
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Leveraging password policies</font>
+	      If your organization enforces a password policy, use this to your advantage.
+	      * If they require a minimum length, trying passwords under that length is a waste of time. There are 3,521,614,606,208 (3.5 trillion) combinations of 7 character words with UPPERCASE, lowercase, and digits 0-9.
+	      * If special characters/uppercase are enforced, people will often use these predictably: Password1!
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Pseudo-random number generators</font>
+	      Sometimes, software will generate passwords for the users. If the developers implemented this poorly, you may be able to calculate the password itself or a range of potential passwords.
+	      * If they seeded the PRNG with time() and you know roughly when the account was created or the service was started.
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Proof of concept</font>
+	      ```
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+
+char valid_characters[] =
+"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+"abcdefghijklmnopqrstuvwxyz"
+"0123456789";
+
+int main(int argc, char *argv[]) {
+  int i;
+
+  if (argv[1]) {
+    srand(atoi(argv[1]));
+  } else {
+    srand(time(NULL));
+    printf("%ld\n", time(NULL));
+  }
+
+  // Generate random 8 character password
+  for(i = 0; i < 8; i++)
+    printf("%c", valid_characters[rand() % sizeof(valid_characters)]);
+
+  printf("\n");
+
+  return 0;
+}
+	      ```
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      <img src="img/prng.gif">
+	    </textarea>
+	  </section>
 	</section>
 	<!--
-	    password cracking basics (dictionary attacks)
-	    -- Identifying hashes https://github.com/psypanda/hashID
 	    -- John the ripper
 	       -- installing from git
 	       -- basic usage
@@ -384,30 +515,16 @@
 	       -- human nature of being forced into a complexity policy
                -- diceware https://www.eff.org/dice
 
-            Online cracking services
-	    -- hashkiller etc
-	    -- Warning about online services now having your hashes
-
 	    Defense against online attacks
 	    -- Salting
+            -- Limit  # of users that use a certain pattern
             -- Policy if your password has been cracked, its time to change it.
 	       -- Automate this with JtR
 	       -- Actively try to crack your user's hashes (if feasible)
 
-            Rainbow tables
-	    -- What are rainbow tables
-              -- don't have to generate tables for hash space, only need keyspace
-	    -- Obtaining rainbow tables
-	    -- Generating your own
-            -- Limitations of rainbow tables
-
             Defense against Rainbow tables
 	    -- Weakness of rainbow tables is storage + time to generate tables.
             -- Salt and peppa.
-
-	    Markov chains
-	    -- What are they? https://github.com/RUB-SysSec/OMEN
-	    -- Using JtR for markov chains
 
 	    Attacking PRNGs
 	    -- Simple tool to generate random passwords using rand()
