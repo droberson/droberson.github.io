@@ -217,7 +217,7 @@
 	<section>
 	  <section data-markdown>
 	    <textarea data-template>
-	      ## <font color="yellow">Hash cracking</font>
+	      ## <font color="yellow">Attacks</font>
 	      Various attacks "solve" a hash:
 	      * Dictionary attacks
 	      * Brute force
@@ -241,7 +241,7 @@
 	      ## <font color="yellow">Hardware</font>
 	      * CPU = less cores
 	      * GPU = more cores
-	      * You dont NEED a cracking rig.
+	      * You dont NEED a cracking rig
 	      * JtR/Hashcat perform better/worse on CPU/GPU depending on the hash type
 	      * Perform benchmarks on your system to see what works best for your particular application
 	      * [John the Ripper benchmarking](http://openwall.info/wiki/john/benchmarks): use --test flag
@@ -419,7 +419,7 @@
 	      * Convert words to l33tspeak
 	      * Append numbers to the end of words (ninja1 ... ninja9999)
 	      * Add exclaimation point to the end of words
-	      * ...
+	      * https://github.com/NotSoSecure/password_cracking_rules
 	      * [Korelogic JtR rules](http://contest-2010.korelogic.com/rules.html)
 	    </textarea>
 	  </section>
@@ -515,37 +515,147 @@ int main(int argc, char *argv[]) {
 	      <img src="img/prng.gif">
 	    </textarea>
 	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Don't do this</font>
+	      <img src="img/keyboard-postit.jpg">
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Public leaks</font>
+	      * Sites get hacked, databases dumped
+	      * https://haveibeenpwned.com/
+	      * People re-use passwords
+	    </textarea>
+	  </section>
 	</section>
-	<!--
-	    -- John the ripper
-	       -- installing from git
-	       -- basic usage
-            -- Rules
-	    
-            Defense against dictionary attacks
-	    -- Picking the right hash algorithm
-	    -- John benchmarks
-	    -- Salting
-            -- Secret salt (pepper)
-	    -- Use good passwords
-	       -- Time is your friend
-	       -- Keyspace. What is it?
-	       -- xkcd comic https://xkcd.com/936/
-	       -- math proof of longer > complex
-	       -- human nature of being forced into a complexity policy
-               -- diceware https://www.eff.org/dice
 
-	    Defense against online attacks
-	    -- Salting
-            -- Limit  # of users that use a certain pattern
-            -- Policy if your password has been cracked, its time to change it.
-	       -- Automate this with JtR
-	       -- Actively try to crack your user's hashes (if feasible)
+	<!-- Slide 8 -->
+	<section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Defenses</font>
+	      * No silver bullets; layer defenses!
+	      * Good passwords
+	      * Do not re-use passwords
+	      * Multi-factor authentication
+	      * Choose the right algorithm
+	      * Salt and pepper
+	      * Patterns
+	      * Policy
+	      * PAM modules
+	      * Better development practices
+	      * ...
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Good passwords</font>
+	      * Complexity isn't necessarily good
+	      * Length &gt; complexity
+	      * [Diceware](https://www.eff.org/dice)
+	      * Your passwords should take a very long time to crack
+	      * [Moore's law](https://en.wikipedia.org/wiki/Moore%27s_law) -- Transistor density doubles every other year. What takes too long now may be feasible in a few years
+	    </textarea>
+	  </section>
+	  <section>
+	    <img src="img/xkcd-password.png">
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Multi-factor authentication</font>
+	      * Relatively easy
+	      * Yubikeys
+	      * Google authenticator
+	      * SMS
+	      * https://twofactorauth.org/
+	      * [12 days of 2FA](https://www.eff.org/deeplinks/2016/12/12-days-2fa-how-enable-two-factor-authentication-your-online-accounts)
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Password manager</font>
+	      * Helps prevent password re-use
+	      * Lastpass, Dashlane, 1Password, Keepass, ...
+	      * One password and everything is revealed
+	      * Still perhaps the best solution at the moment, especially when paired with 2FA
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Slow hash funcitons</font>
+	      * Consume more resources (take longer) to calculate, increasing time required to crack the hash
+	      * [bcrypt](https://en.wikipedia.org/wiki/Bcrypt)
+	      * https://crackstation.net/hashing-security.htm
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Salts</font>
+	      * Random string appended to password
+	      * Makes rainbow tables impractical
+	      * 1 byte salt requires storing 256 hashes, 2 bytes 65535, ...
+	      * If two users have the same password, salting will hide this fact from an attacker. (Must still calculate hashes with the same password)
+	      * <a href="https://en.wikipedia.org/wiki/Pepper_(cryptography)">Pepper</a> is similar to <a href="https://en.wikipedia.org/wiki/Salt_(cryptography)">salt</a>,  but stored in another location
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Salted SHA-512</font>
+	      > $hashid$salt$hash
 
-            Defense against Rainbow tables
-	    -- Weakness of rainbow tables is storage + time to generate tables.
-            -- Salt and peppa.
-	  -->
+	      <img src="img/sha512-salt.png">
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Cracklib</font>
+	      * https://github.com/cracklib/cracklib
+	      * Provides tooling that denies users the opportunity to set poor passwords
+	      * Checks against patterns, complexity, dictionaries, reversals-&gt;slasrever, rotations-&gtotationsr, ...
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Policy</font>
+	      * Enforce password complexity, length, ...
+	      * Can use PAM modules: pam_pwquality, pam_cracklib
+	      * Can be set via GPO
+	      * Actively try to crack your users' passwords (if feasible). If you manage to crack one, they need to change their password
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Monitoring</font>
+	      * Tools such as Fail2Ban monitor logs and lock out entities with failed logins
+	      * pam_tally2
+	      * Account Lockout Policy GPO
+	      * Usually not terrible to implement on in-house developed software
+	      * [iptables throttling](https://gist.github.com/droberson/c9f7c81209c8ff25ba4556c5809b50bb)
+	    </textarea>
+	  </section>
+	  <section data-markdown>
+	    <textarea data-template>
+	      ## <font color="yellow">Patterns</font>
+	      * u, l, d, s; upper, lower, digit, special
+	      * These are predictable patterns
+	      * ulllllds is a common password pattern
+	      * Limit number of users using a pattern
+	      * Spreads out distribution of patterns, limiting impact if the pattern is discovered 
+	      * Not sure if tooling exists to do this (yet)
+	      * [PACK](https://thesprawl.org/projects/pack/) performs statistics on wordlists, revealing patterns
+	    </textarea>
+	  </section>
+	</section>
+
+	<!-- Slide 9 -->
+	<section data-markdown>
+	  <textarea data-template>
+	    # <font color="yellow">The end</font>
+	  </textarea>
+	</section>
+	<!-- The end  -->
       </div>
     </div>
     
